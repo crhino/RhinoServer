@@ -1,0 +1,3 @@
+class RhinoHTTPResponse
+
+end

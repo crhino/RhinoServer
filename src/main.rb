@@ -1,17 +1,7 @@
-require 'socket'
-
-
-class SimpleHTTPServer < TCPServer
-  attr_reader :root
-
-  def initialize(port, root)
-    @root = File.absolute_path(root)
-    super(port)
-  end
-end
+require_relative 'http_server'
 
 def main
-  server = SimpleHTTPServer.new(8080, ".")
+  server = RhinoHTTPServer.new(8080, ".")
   loop do
     client = server.accept
     client.puts "Please input the passphrase: "
