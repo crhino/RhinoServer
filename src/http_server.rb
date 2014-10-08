@@ -6,7 +6,12 @@ class RhinoHTTPServer < TCPServer
 
   def initialize(port, root)
     @root = File.absolute_path(root)
+    @readers = []
     super(port)
   end
-end
 
+  def accept
+    socket = super
+    @readers.push(RhinoHTTPReader.new(socket))
+  end
+end
