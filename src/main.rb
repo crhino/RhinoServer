@@ -2,21 +2,24 @@ require_relative 'http_server'
 
 def main
   server = RhinoHTTPServer.new(8080, ".")
+  conn = server.conn
   loop do
-    client = server.accept
-    client.puts "Please input the passphrase: "
-    password = client.gets.chomp
+    conn.accept
+    puts conn
+    conn.send "Please input the passphrase: "
+    password = conn.get_msg.chomp
     puts "Passphrase is #{password}, apparently"
     if password != "thing"
-      client.puts "Closing connection"
-      client.close
+      conn.send "Closing connection"
+      conn.close
       next
     end
-    client.puts "You are connected"
-    client.puts "Time is #{Time.now}"
-    client.puts "my address is #{server.addr}"
-    client.puts "my root directory is #{server.root}"
-    client.close
+    conn.send "You are connected"
+    conn.send "Time is #{Time.now}"
+    conn.send "my address is #{conn.addr}"
+    conn.send "my root directory is #{server.root}"
+    puts "#{conn.get_msg}"
+    conn.close
   end
 end
 

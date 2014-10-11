@@ -1,17 +1,17 @@
 require 'socket'
+require_relative 'http_reader_writer'
 
 
-class RhinoHTTPServer < TCPServer
+class RhinoHTTPServer
   attr_reader :root
 
   def initialize(port, root)
     @root = File.absolute_path(root)
     @readers = []
-    super(port)
+    @port = port
   end
 
-  def accept
-    socket = super
-    @readers.push(RhinoHTTPReader.new(socket))
+  def conn
+    RhinoHTTPReaderWriter.new(@port)
   end
 end
