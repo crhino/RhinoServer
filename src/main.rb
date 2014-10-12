@@ -2,9 +2,8 @@ require_relative 'http_server'
 
 def main
   server = RhinoHTTPServer.new(8080, ".")
-  conn = server.conn
   loop do
-    conn.accept
+    conn = server.accept
     puts conn
     conn.send "Please input the passphrase: "
     password = conn.get_msg.chomp
