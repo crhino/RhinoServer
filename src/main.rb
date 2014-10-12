@@ -5,19 +5,16 @@ def main
   loop do
     conn = server.accept
     puts conn
-    conn.send "Please input the passphrase: "
-    password = conn.get_msg.chomp
-    puts "Passphrase is #{password}, apparently"
-    if password != "thing"
-      conn.send "Closing connection"
-      conn.close
-      next
-    end
     conn.send "You are connected"
+    msg = ""
+    while msg != "\r\n" do
+      msg = conn.recv_line
+      conn.send msg
+    end
     conn.send "Time is #{Time.now}"
     conn.send "my address is #{conn.addr}"
     conn.send "my root directory is #{server.root}"
-    puts "#{conn.get_msg}"
+    conn.send "Closing connection..."
     conn.close
   end
 end
