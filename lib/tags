@@ -1,0 +1,23 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+RhinoHTTPHeaders	http_headers.rb	/^class RhinoHTTPHeaders$/;"	c
+RhinoHTTPReaderWriter	http_reader_writer.rb	/^class RhinoHTTPReaderWriter$/;"	c
+RhinoHTTPRequest	requests/http_request.rb	/^class RhinoHTTPRequest$/;"	c
+RhinoHTTPResponse	responses/http_response.rb	/^class RhinoHTTPResponse$/;"	c
+RhinoHTTPServer	http_server.rb	/^class RhinoHTTPServer < TCPServer$/;"	c
+accept	http_server.rb	/^  def accept$/;"	f	class:RhinoHTTPServer
+addr	http_reader_writer.rb	/^  def addr$/;"	f	class:RhinoHTTPReaderWriter
+close	http_reader_writer.rb	/^  def close$/;"	f	class:RhinoHTTPReaderWriter.find_crlf
+empty_buffer?	http_reader_writer.rb	/^  def empty_buffer?$/;"	f	class:RhinoHTTPReaderWriter
+find_crlf	http_reader_writer.rb	/^  def find_crlf$/;"	f	class:RhinoHTTPReaderWriter
+initialize	http_reader_writer.rb	/^  def initialize(socket)$/;"	f	class:RhinoHTTPReaderWriter
+initialize	http_server.rb	/^  def initialize(port, root)$/;"	f	class:RhinoHTTPServer
+main	main.rb	/^def main$/;"	f
+read_line	http_reader_writer.rb	/^  def read_line$/;"	f	class:RhinoHTTPReaderWriter.find_crlf
+read_loop	http_reader_writer.rb	/^  def read_loop$/;"	f	class:RhinoHTTPReaderWriter
+recv_line	http_reader_writer.rb	/^  def recv_line$/;"	f	class:RhinoHTTPReaderWriter
+send	http_reader_writer.rb	/^  def send(msg)$/;"	f	class:RhinoHTTPReaderWriter
