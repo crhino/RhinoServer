@@ -1,7 +1,8 @@
 require 'uri'
+require_relative '../http_headers'
 
 class RhinoHTTPRequest
-  attr_reader :conn, :method, :uri, :version
+  attr_reader :conn, :method, :uri, :version, :headers
 
   def initialize(conn)
     @conn = conn
@@ -16,5 +17,19 @@ class RhinoHTTPRequest
 
     parser = URI::Parser.new
     @uri = parser.parse(uri_string)
+
+    @headers = RhinoHTTPHeaders.new
+    headers.parse(read_headers)
+
+    # Remove CRLF separating either the header and body or the next Request
+    conn.recv_line
+  end
+
+  def read_headers
+    headers_ary = []
+    while conn.peek != "\r\n" do
+      headers_ary << conn.recv_line
+    end
+    headers_ary
   end
 end

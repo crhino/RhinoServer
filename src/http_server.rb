@@ -26,7 +26,7 @@ class RhinoHTTPServer < TCPServer
       method = req.method
       path = req.uri.path
       res = RhinoHTTPResponse.new(conn, method, root, path)
-      res.send
+      res.send_response
       conn.close
     end
   end

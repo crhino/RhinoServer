@@ -22,6 +22,10 @@ class RhinoHTTPReaderWriter
     buffer.empty?
   end
 
+  def peek
+    buffer.first
+  end
+
   def recv_line
     sleep(1) until !buffer.empty?
     p "buffer is #{buffer}"
