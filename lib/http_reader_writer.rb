@@ -1,8 +1,11 @@
 class RhinoHTTPReaderWriter
   attr_accessor :socket, :buffer, :thread
-  def initialize(socket)
+  def initialize(socket, empty_buffer)
     @socket = socket
-    @buffer = []
+    @buffer = empty_buffer
+  end
+
+  def start
     @thread = Thread.new do
       loop do
         read_loop
@@ -23,20 +26,19 @@ class RhinoHTTPReaderWriter
   end
 
   def peek
+    sleep(1) until !empty_buffer?
     buffer.first
   end
 
   def recv_line
-    sleep(1) until !buffer.empty?
-    p "buffer is #{buffer}"
-    p "buffer length is #{buffer.length}"
+    sleep(1) until !empty_buffer?
     buffer.shift
   end
 
-  def read_loop
-    p "running thread"
-    line = read_line
-    buffer.push(line)
+  def close
+    socket.close
+    thread.kill
+    p "Socket closed."
   end
 
   def find_crlf
@@ -51,14 +53,14 @@ class RhinoHTTPReaderWriter
     str_split_array[0].length + 2
   end
 
-  def read_line
-    socket.recv(find_crlf)
+  private
+
+  def read_loop
+    line = read_line
+    buffer.push(line)
   end
 
-  def close
-    p "Closing socket..."
-    socket.close
-    thread.kill
-    p "Socket closed."
+  def read_line
+    socket.recv(find_crlf)
   end
 end

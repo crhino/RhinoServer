@@ -16,13 +16,16 @@ class RhinoHTTPServer < TCPServer
 
   def accept
     socket = super
-    RhinoHTTPReaderWriter.new(socket)
+    conn = RhinoHTTPReaderWriter.new(socket, [])
+    conn.start
+    conn
   end
 
   def start
     loop do
       conn = accept
       req = RhinoHTTPRequest.new(conn)
+      req.parse_request
       method = req.method
       path = req.uri.path
       res = RhinoHTTPResponse.new(conn, method, root, path)

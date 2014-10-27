@@ -1,13 +1,16 @@
 require 'time'
+require 'filemagic'
 
 class RhinoHTTPResponse
-  attr_reader :conn, :method, :root, :path
+  attr_reader :conn, :method, :root, :path, :mime_type, :not_found_body
 
   def initialize(conn, method, root, path)
     @conn = conn
     @method = method
     @root = root
     @path = path
+    @mime_type = FileMagic.mime
+    @not_found_body = File.join(root, "html/not_found.html")
   end
 
   def send_response
@@ -20,7 +23,7 @@ class RhinoHTTPResponse
   end
 
   def send_headers(file)
-    conn.send("Content-Type: text/html\r\n")
+    conn.send("Content-Type: #{mime_type.file(file)}\r\n")
     conn.send("Content-Length: #{File::Stat.new(file).size}\r\n")
     conn.send("Date: #{Time.now.httpdate}\r\n")
     conn.send("Server: rhino\r\n")
@@ -35,17 +38,15 @@ class RhinoHTTPResponse
   end
 
   def send_file(file)
-    p "Sending file at path: #{file}"
     File.open(file, "r").each_line do |line|
       conn.send(line)
     end
   end
 
   def not_found
-    not_found_page = File.join(root, "html/not_found.html")
     conn.send("HTTP/1.1 404 Not Found\r\n")
-    send_headers(not_found_page)
-    send_file(not_found_page)
+    send_headers(not_found_body)
+    send_file(not_found_body)
     conn.send("\r\n")
   end
 end

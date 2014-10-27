@@ -6,7 +6,6 @@ class RhinoHTTPRequest
 
   def initialize(conn)
     @conn = conn
-    parse_request
   end
 
   def parse_request
