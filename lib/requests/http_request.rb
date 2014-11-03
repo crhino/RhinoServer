@@ -26,8 +26,11 @@ class RhinoHTTPRequest
 
   def read_headers
     headers_ary = []
-    while conn.peek != "\r\n" do
-      headers_ary << conn.recv_line
+
+    http_line = conn.recv_line
+    while http_line != "\r\n" do
+      headers_ary << http_line
+      http_line = conn.recv_line
     end
     headers_ary
   end

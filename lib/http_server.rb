@@ -1,4 +1,5 @@
 require 'socket'
+require 'thread'
 require_relative 'http_reader_writer'
 require_relative 'requests/http_request'
 require_relative 'responses/http_response'
@@ -16,7 +17,7 @@ class RhinoHTTPServer < TCPServer
 
   def accept
     socket = super
-    conn = RhinoHTTPReaderWriter.new(socket, [])
+    conn = RhinoHTTPReaderWriter.new(socket, Queue.new)
     conn.start
     conn
   end

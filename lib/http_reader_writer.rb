@@ -1,3 +1,5 @@
+require 'socket'
+
 class RhinoHTTPReaderWriter
   attr_accessor :socket, :buffer, :thread
   def initialize(socket, empty_buffer)
@@ -25,14 +27,8 @@ class RhinoHTTPReaderWriter
     buffer.empty?
   end
 
-  def peek
-    sleep(1) until !empty_buffer?
-    buffer.first
-  end
-
   def recv_line
-    sleep(1) until !empty_buffer?
-    buffer.shift
+    buffer.pop
   end
 
   def close
